@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { movieTitles } from '../data/movies';
 import { fetchMovieDetails } from '../api/omdbApi';
@@ -5,6 +7,8 @@ import { fetchMovieDetails } from '../api/omdbApi';
 export default function Quiz() {
   const [currentMovie, setCurrentMovie] = useState('');
   const [clues, setClues] = useState<string[]>([]);
+  const [userInput, setUserInput] = useState('');
+  const [currentClue, setCurrentClue] = useState(0);
 
   const startGame = () => {
     const randomIndex = Math.floor(Math.random() * movieTitles.length);
@@ -34,8 +38,34 @@ export default function Quiz() {
     return cluesArray;
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserInput(e.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault;
+    if (userInput.toLowerCase() === currentMovie.toLowerCase()) {
+      alert(`Congrats! ${currentMovie} is the correct answer! On a ${currentClue + 1} try!`);
+    } else {
+      setCurrentClue(currentClue + 1);
+    };
+    setUserInput('');
+  };
+
   return (
     <>
+      <div className="flex flex-col items-center justify-center h-[100vh] w-[100vw]">
+        <button onClick={startGame}>Start Game!</button>
+        {clues.slice(0, currentClue + 1).map((clue, index) => (
+          <div key={index}>
+            <p>{clue}</p>
+          </div>
+        ))}
+        <form onSubmit={handleSubmit}>
+          <input type="text" value={userInput} onChange={handleInputChange} />
+          <button type="submit">Submit..</button>
+        </form>
+      </div>
     </>
   );
 }
