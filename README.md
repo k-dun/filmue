@@ -1,4 +1,4 @@
-## Filmue - 
+## Filmue - Movie quiz web app for film buffs.
 
 To run the development server:
 
