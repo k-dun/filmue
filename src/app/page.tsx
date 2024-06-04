@@ -98,7 +98,7 @@ export default function Home() {
         </Link>
         {!startedGame && (
           <button onClick={startGame} className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg mb-5">
-            Let's go!
+            Let&apos;s go!
           </button>
         )}
         {clues.slice(0, currentClue + 1).map((clue, index) => (
