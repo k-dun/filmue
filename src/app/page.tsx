@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { movieTitles } from './data/movies';
 import { fetchMovieDetails } from './api/omdbApi';
 import Image from 'next/image';
@@ -12,6 +12,23 @@ export default function Home() {
   const [clues, setClues] = useState<string[]>([]);
   const [userInput, setUserInput] = useState('');
   const [startedGame, setStartedGame] = useState(false);
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    if (startedGame) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [startedGame]);
 
   const startGame = () => {
     const randomIndex = Math.floor(Math.random() * movieTitles.length);
@@ -53,10 +70,11 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (userInput.toLowerCase() === currentMovie.toLowerCase()) {
-      alert(`Well done! You guessed correctly on the ${currentClue + 1} try!`);
+      alert(`Well done! You guessed correctly on the ${currentClue + 1} try in exactly ${timer} seconds!`);
       setCurrentClue(0);
       setClues([]);
       setUserInput('');
+      setTimer(0);
       endGame();
     } else {
       if (currentClue === clues.length - 1) {
@@ -94,6 +112,7 @@ export default function Home() {
           <form onSubmit={handleSubmit}>
             <input type="text" value={userInput} placeholder="Movie title" onChange={handleInputChange} className="border border-[#202020] py-3 px-2 rounded-lg mr-2" />
             <button type="submit" className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg">Submit..</button>
+            <p className="mt-4">Timer: {timer} seconds..</p>
           </form>
         )}
       </div>
