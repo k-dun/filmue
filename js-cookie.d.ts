@@ -15,7 +15,7 @@ declare module 'js-cookie' {
 
   function get(name: string): string | undefined;
   function set(name: string, value: string | object, options?: CookieOptions): void;
-  function remove(name: string, options?: CookieOptions):void;
+  function remove(name: string, options?: CookieOptions): void;
 
   export { get, set, remove };
 }
