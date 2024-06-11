@@ -76,6 +76,16 @@ export default function Home() {
     setUserInput(e.target.value);
   };
 
+  const resetGame = () => {
+    setCurrentClue(0);
+    setClues([]);
+    setUserInput('');
+    setTimer(0);
+    setStreak(0);
+    Cookies.remove('streak');
+    setStartedGame(false);
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (userInput.toLowerCase() === currentMovie.toLowerCase()) {
@@ -90,11 +100,7 @@ export default function Home() {
     } else {
       if (currentClue === clues.length - 1) {
         alert('Sorry, you have used up all the clues. The movie was ' + currentMovie);
-        setCurrentClue(0);
-        setClues([]);
-        setUserInput('');
-        Cookies.remove('streak');
-        endGame();
+        resetGame();
       } else {
         setCurrentClue(currentClue + 1);
         setUserInput('');
@@ -109,9 +115,13 @@ export default function Home() {
           <Image src="/filmue-logo.png" priority={true} className="mb-12" alt="Filmue Logo" width={400} height={100} />
         </Link>
         {!startedGame && (
-          <button onClick={startGame} className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg mb-5">
-            Let&apos;s go!
-          </button>
+          <>
+            <p className="my-2">Simple game. Six hints, six guesses. Only <span className="font-semibold">ONE</span> correct answer.</p>
+            <p className="mb-4 font-semibold">Good Luck!</p>
+            <button onClick={startGame} className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg mb-5">
+              Let&apos;s go!
+            </button>
+          </>
         )}
         {clues.slice(0, currentClue + 1).map((clue, index) => (
           <div key={index} className="">
