@@ -116,7 +116,8 @@ export default function Home() {
         </Link>
         {!startedGame && (
           <>
-            <p className="my-2">Simple game. Six hints, six guesses. Only <span className="font-semibold">ONE</span> correct answer.</p>
+            <p className="my-2 px-4">Simple game. Six hints, six guesses.</p>
+            <p>Only <span className="font-semibold">ONE</span> correct answer.</p>
             <p className="mb-4 font-semibold">Good Luck!</p>
             <button onClick={startGame} className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg mb-5">
               Let&apos;s go!
@@ -125,7 +126,7 @@ export default function Home() {
         )}
         {clues.slice(0, currentClue + 1).map((clue, index) => (
           <div key={index} className="">
-            <p className="flex flex-wrap w-[30vw] justify-center items-center border-2 bg-[#808080] text-[#FCFAFF] rounded-lg px-6 py-4 mb-3">
+            <p className="flex flex-wrap w-[80vw] md:w-[30vw] justify-center items-center border-2 bg-[#808080] text-[#FCFAFF] rounded-lg px-6 py-4 mb-3">
               {clue}
             </p>
           </div>

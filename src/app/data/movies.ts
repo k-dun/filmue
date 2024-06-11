@@ -66,7 +66,7 @@ export const movieTitles = [
   'Marriage Story',
   'Jojo Rabbit',
   'Joker',
-  'Once Upon a Time in Hollywood',
+  'Once Upon a Time... in Hollywood',
   '1917',
   'Rocketman',
   'The Favourite',
