@@ -5,6 +5,7 @@ import { movieTitles } from './data/movies';
 import { fetchMovieDetails } from './api/omdbApi';
 import Image from 'next/image';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 export default function Home() {
   const [currentMovie, setCurrentMovie] = useState('');
@@ -13,6 +14,7 @@ export default function Home() {
   const [userInput, setUserInput] = useState('');
   const [startedGame, setStartedGame] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [streak, setStreak] = useState(0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -29,6 +31,13 @@ export default function Home() {
       }
     };
   }, [startedGame]);
+
+  useEffect(() => {
+    const storedStreak = Cookies.get('streak');
+    if (storedStreak) {
+      setStreak(parseInt(storedStreak, 10));
+    }
+  }, []);
 
   const startGame = () => {
     const randomIndex = Math.floor(Math.random() * movieTitles.length);
@@ -75,6 +84,8 @@ export default function Home() {
       setClues([]);
       setUserInput('');
       setTimer(0);
+      setStreak((prevStreak) => prevStreak + 1);
+      Cookies.set('streak', (streak + 1).toString());
       endGame();
     } else {
       if (currentClue === clues.length - 1) {
@@ -82,6 +93,7 @@ export default function Home() {
         setCurrentClue(0);
         setClues([]);
         setUserInput('');
+        Cookies.remove('streak');
         endGame();
       } else {
         setCurrentClue(currentClue + 1);
@@ -112,7 +124,7 @@ export default function Home() {
           <form onSubmit={handleSubmit}>
             <input type="text" value={userInput} placeholder="Movie title" onChange={handleInputChange} className="border border-[#202020] py-3 px-2 rounded-lg mr-2" />
             <button type="submit" className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg">Submit..</button>
-            <p className="mt-4">Timer: {timer} seconds..</p>
+            <p>Current streak: {streak}</p>
           </form>
         )}
       </div>
