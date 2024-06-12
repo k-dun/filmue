@@ -94,7 +94,7 @@ export default function Home() {
     if (userInput.toLowerCase() === currentMovie.toLowerCase()) {
       setStreak((prevStreak) => prevStreak + 1);
       Cookies.set('streak', (streak + 1).toString());
-      openModal(`Well done! You guessed correctly in ${currentClue + 1} tries in ${timer} seconds!<br /><br />Your current streak is <span className="text-[#FF8080]">${streak}</span>!`);
+      openModal(`Well done! You guessed correctly in ${currentClue + 1} tries in ${timer} seconds!<br /><br />Your current streak is ${streak}!`);
       setCurrentClue(0);
       setClues([]);
       setUserInput('');
