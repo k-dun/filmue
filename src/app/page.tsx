@@ -94,7 +94,7 @@ export default function Home() {
     if (userInput.toLowerCase() === currentMovie.toLowerCase()) {
       setStreak((prevStreak) => prevStreak + 1);
       Cookies.set('streak', (streak + 1).toString());
-      openModal(`Well done! You guessed correctly in ${currentClue + 1} tries in ${timer} seconds!<br /><br />Your current streak is ${streak}!`);
+      openModal(`Well done! You guessed correctly in ${currentClue + 1} tries in ${timer} seconds!<br /><br />Your current streak is ${streak + 1}!`);
       setCurrentClue(0);
       setClues([]);
       setUserInput('');
@@ -124,7 +124,7 @@ export default function Home() {
     <>
       <div className="flex flex-col items-center justify-center h-[100vh] w-[100vw]">
         <Link href="/">
-          <Image src="/tv-bg.gif" priority={true} className="mb-12 w-[80vw] md:w-[30vw]" alt="Filmue Logo" width={400} height={100} />
+          <Image src="/tv-bg.gif" priority={true} className="mb-12 w-[80vw] md:w-[40vw]" alt="Filmue Logo" width={400} height={100} />
         </Link>
         {!startedGame && (
           <>
@@ -134,6 +134,7 @@ export default function Home() {
             <button onClick={startGame} className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg mb-5">
               Let&apos;s go!
             </button>
+            <p className="text-center text-lg mt-4">Your current streak is: <span className="text-[#FF8080] font-semibold">{streak}</span>!</p>
           </>
         )}
         {clues.slice(0, currentClue + 1).map((clue, index) => (
