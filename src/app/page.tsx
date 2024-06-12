@@ -6,6 +6,7 @@ import { fetchMovieDetails } from './api/omdbApi';
 import Image from 'next/image';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
+import Modal from './components/Modal';
 
 export default function Home() {
   const [currentMovie, setCurrentMovie] = useState('');
@@ -15,6 +16,8 @@ export default function Home() {
   const [startedGame, setStartedGame] = useState(false);
   const [timer, setTimer] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [modalMessage, setModalMessage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -89,7 +92,7 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (userInput.toLowerCase() === currentMovie.toLowerCase()) {
-      alert(`Well done! You guessed correctly on the ${currentClue + 1} try in exactly ${timer} seconds!`);
+      openModal(`Well done! You guessed correctly in ${currentClue + 1} tries in ${timer} seconds!<br /><br />Your current streak is ${streak}!`);
       setCurrentClue(0);
       setClues([]);
       setUserInput('');
@@ -99,7 +102,7 @@ export default function Home() {
       endGame();
     } else {
       if (currentClue === clues.length - 1) {
-        alert('Sorry, you have used up all the clues. The movie was ' + currentMovie);
+        openModal('Sorry, you have used up all the clues. The movie was ' + currentMovie + '!');
         resetGame();
       } else {
         setCurrentClue(currentClue + 1);
@@ -108,17 +111,26 @@ export default function Home() {
     }
   };
 
+  const openModal = (message: string) => {
+    setModalMessage(message);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <div className="flex flex-col items-center justify-center h-[100vh] w-[100vw]">
         <Link href="/">
-          <Image src="/filmue-logo.png" priority={true} className="mb-12" alt="Filmue Logo" width={400} height={100} />
+          <Image src="/filmue-logo.png" priority={true} className="mb-12 w-[80vw] md:w-[30vw]" alt="Filmue Logo" width={400} height={100} />
         </Link>
         {!startedGame && (
           <>
-            <p className="my-2 px-4">Simple game. Six hints, six guesses.</p>
+            <p className="my-4 px-4">Simple game. Six hints, six guesses.</p>
             <p>Only <span className="font-semibold">ONE</span> correct answer.</p>
-            <p className="mb-4 font-semibold">Good Luck!</p>
+            <p className="mb-4 mt-2 font-semibold">Good Luck!</p>
             <button onClick={startGame} className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg mb-5">
               Let&apos;s go!
             </button>
@@ -139,6 +151,7 @@ export default function Home() {
           </form>
         )}
       </div>
+      <Modal message={modalMessage} isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 }
