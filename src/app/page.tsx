@@ -92,13 +92,13 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (userInput.toLowerCase() === currentMovie.toLowerCase()) {
-      openModal(`Well done! You guessed correctly in ${currentClue + 1} tries in ${timer} seconds!<br /><br />Your current streak is ${streak}!`);
+      setStreak((prevStreak) => prevStreak + 1);
+      Cookies.set('streak', (streak + 1).toString());
+      openModal(`Well done! You guessed correctly in ${currentClue + 1} tries in ${timer} seconds!<br /><br />Your current streak is <span className="text-[#FF8080]">${streak}</span>!`);
       setCurrentClue(0);
       setClues([]);
       setUserInput('');
       setTimer(0);
-      setStreak((prevStreak) => prevStreak + 1);
-      Cookies.set('streak', (streak + 1).toString());
       endGame();
     } else {
       if (currentClue === clues.length - 1) {
@@ -145,9 +145,8 @@ export default function Home() {
         ))}
         {startedGame && (
           <form onSubmit={handleSubmit}>
-            <input type="text" value={userInput} placeholder="Movie title" onChange={handleInputChange} className="border border-[#202020] py-3 px-2 rounded-lg mr-2" />
+            <input type="text" value={userInput} placeholder="Movie title:" onChange={handleInputChange} className="border border-[#202020] py-3 px-2 rounded-lg mr-2" />
             <button type="submit" className="bg-[#202020] hover:bg-[#404040] text-[#FCFAFF] font-bold py-3 px-10 shadow hover:shadow-xl rounded-lg">Submit..</button>
-            <p>Current streak: {streak}</p>
           </form>
         )}
       </div>
