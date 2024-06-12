@@ -124,7 +124,7 @@ export default function Home() {
     <>
       <div className="flex flex-col items-center justify-center h-[100vh] w-[100vw]">
         <Link href="/">
-          <Image src="/filmue-logo.png" priority={true} className="mb-12 w-[80vw] md:w-[30vw]" alt="Filmue Logo" width={400} height={100} />
+          <Image src="/tv-bg.gif" priority={true} className="mb-12 w-[80vw] md:w-[30vw]" alt="Filmue Logo" width={400} height={100} />
         </Link>
         {!startedGame && (
           <>
@@ -138,7 +138,7 @@ export default function Home() {
         )}
         {clues.slice(0, currentClue + 1).map((clue, index) => (
           <div key={index} className="">
-            <p className="flex flex-wrap w-[80vw] md:w-[30vw] justify-center items-center border-2 bg-[#808080] text-[#FCFAFF] rounded-lg px-6 py-4 mb-3">
+            <p className="flex flex-wrap w-[80vw] md:w-[40vw] justify-center items-center border-2 bg-[#808080] text-[#FCFAFF] rounded-lg px-6 py-4 mb-3">
               {clue}
             </p>
           </div>
