@@ -102,7 +102,7 @@ export default function Home() {
       endGame();
     } else {
       if (currentClue === clues.length - 1) {
-        openModal('Sorry, you have used up all the clues. The movie was ' + currentMovie + '!');
+        openModal('Sorry, you have used up all the clues.<br /><br />The movie was ' + currentMovie + '!');
         resetGame();
       } else {
         setCurrentClue(currentClue + 1);
